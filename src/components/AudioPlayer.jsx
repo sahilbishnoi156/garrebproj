@@ -16,7 +16,7 @@ const formatDuration = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = Math.round(seconds % 60);
   const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
-  return `${minutes}:${formattedSeconds}`;
+  return `${minutes || "00"}:${formattedSeconds || '00'}`;
 };
 
 export default function AudioPlayer({ tracks, trackIndex, setTrackIndex }) {
@@ -24,13 +24,13 @@ export default function AudioPlayer({ tracks, trackIndex, setTrackIndex }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
-  const audioRef = useRef(new Audio());
+  const audioRef = useRef( typeof Audio !== "undefined" ? new Audio() : null);
   const intervalRef = useRef();
   const isReady = useRef(false);
 
   const currentTrack = tracks[trackIndex];
   const { audioSrc, cover, title } = currentTrack;
-  const { duration } = audioRef.current;
+  const { duration } = audioRef?.current || "";
 
   const currentPercentage = duration
     ? `${(trackProgress / duration) * 100}%`
