@@ -4,7 +4,8 @@ import AudioPlayer from "@/components/AudioPlayer";
 import TrackCard from "@/components/TrackCard";
 import { tracks } from "@/data/songs";
 import React, { Suspense } from "react";
-import Loading from "./loading";
+import Loading from "./Loading";
+
 
 export default function Home() {
   const [trackIndex, setTrackIndex] = React.useState(0);

@@ -38,6 +38,11 @@ export const tracks = [
       cover: '/assets/ak47mp69cover.jpeg'
     },
     {
+      title: 'Khudgarzi',
+      audioSrc: '/assets/khudgarzi.mp3',
+      cover: '/assets/khudgarzicover.jpeg'
+    },
+    {
       title: 'Bharosa',
       audioSrc: '/assets/bharosa.mp3',
       cover: '/assets/bharosacover.jpeg'
@@ -52,11 +57,7 @@ export const tracks = [
       audioSrc: '/assets/siyahdil.mp3',
       cover: '/assets/siyahdilcover.jpeg'
     },
-    {
-      title: 'Khudgarzi',
-      audioSrc: '/assets/khudgarzi.mp3',
-      cover: '/assets/khudgarzicover.jpeg'
-    },
+    
     
   ];
   
