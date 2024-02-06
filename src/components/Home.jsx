@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <div className=" bg-[#151515] text-white min-h-screen pb-40 p-10">
-      <h1 className="text-[7vw] md:text-6xl">AK_47</h1>
+      <h1 className="md:text-[8vw] text-[4rem]">AK_47</h1>
       <section>
         <h3 className="text-2xl">My Tracks</h3>
         <div className="mt-4 flex gap-8 flex-wrap justify-center sm:justify-start">

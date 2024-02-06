@@ -12,7 +12,7 @@ export const tracks = [
     },
     {
       title: "Deccan Drill",
-      audioSrc: '/assets/deccandrill.map3',
+      audioSrc: '/assets/deccandrill.mp3',
       cover:
         "/assets/deccandrillcover.jpeg",
     },
