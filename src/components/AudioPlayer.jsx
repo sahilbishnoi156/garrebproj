@@ -15,16 +15,18 @@ const TrackInfo = ({ cover, title }) => (
 const formatDuration = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = Math.round(seconds % 60);
-  const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
-  return `${minutes || "00"}:${formattedSeconds || '00'}`;
+  const formattedSeconds =
+    remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+  return `${minutes || "00"}:${formattedSeconds || "00"}`;
 };
 
 export default function AudioPlayerMob({ tracks, trackIndex, setTrackIndex }) {
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const audioRef = useRef( typeof Audio !== "undefined" ? new Audio() : null);
+  const audioRef = useRef(typeof Audio !== "undefined" ? new Audio() : null);
   const intervalRef = useRef();
   const isReady = useRef(false);
 
@@ -85,26 +87,35 @@ export default function AudioPlayerMob({ tracks, trackIndex, setTrackIndex }) {
   }, [isMuted]);
 
   useEffect(() => {
+    setIsLoading(true)
     if (isPlaying) {
       audioRef.current.play();
       startTimer();
     } else {
       audioRef.current.pause();
     }
+    setIsLoading(false)
   }, [isPlaying]);
 
   useEffect(() => {
-    audioRef.current.pause();
-    audioRef.current = new Audio(audioSrc);
-    setTrackProgress(audioRef.current.currentTime);
+    const loadAudio = async () => {
+      setIsLoading(true);
+      audioRef.current.pause();
+      audioRef.current = new Audio(audioSrc);
+      await audioRef.current.load(); // This line ensures that the audio is loaded
+      setTrackProgress(audioRef.current.currentTime);
 
-    if (isReady.current && isPlaying) {
-      audioRef.current.play();
-      setIsPlaying(true);
-      startTimer();
-    } else {
-      isReady.current = true;
-    }
+      if (isReady.current && isPlaying) {
+        await audioRef.current.play();
+        setIsPlaying(true);
+        startTimer();
+      } else {
+        isReady.current = true;
+      }
+      setIsLoading(false);
+    };
+
+    loadAudio();
   }, [trackIndex, audioSrc]);
 
   useEffect(() => {
@@ -118,12 +129,17 @@ export default function AudioPlayerMob({ tracks, trackIndex, setTrackIndex }) {
     <div className="lg:flex items-center justify-between hidden">
       <TrackInfo cover={cover} title={title} />
       <div className="w-1/2">
-        <AudioControls
-          isPlaying={isPlaying}
-          onPrevClick={toPrevTrack}
-          onNextClick={toNextTrack}
-          onPlayPauseClick={setIsPlaying}
-        />
+        {isLoading ? (
+          <div>Loading</div>
+        ) : (
+          <AudioControls
+            isPlaying={isPlaying}
+            onPrevClick={toPrevTrack}
+            onNextClick={toNextTrack}
+            onPlayPauseClick={setIsPlaying}
+          />
+        )}
+
         <div className="flex items-center justify-center gap-2">
           <span>{formatDuration(Math.round(trackProgress))}</span>
           <input
