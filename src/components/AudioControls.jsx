@@ -3,13 +3,13 @@ import { FaPlay } from "react-icons/fa";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaCirclePause } from "react-icons/fa6";
 import { TbPlayerTrackNext } from "react-icons/tb";
-import { TbPlayerTrackPrev} from "react-icons/tb";
+import { TbPlayerTrackPrev } from "react-icons/tb";
 
 const AudioControls = ({
-  isPlaying,  
+  isPlaying,
   onPlayPauseClick,
   onPrevClick,
-  onNextClick
+  onNextClick,
 }) => (
   <div className="flex items-center justify-center gap-8 text-2xl">
     <button
@@ -18,7 +18,7 @@ const AudioControls = ({
       aria-label="Previous"
       onClick={onPrevClick}
     >
-      <TbPlayerTrackPrev/>
+      <TbPlayerTrackPrev />
     </button>
     {isPlaying ? (
       <button
@@ -27,7 +27,7 @@ const AudioControls = ({
         onClick={() => onPlayPauseClick(false)}
         aria-label="Pause"
       >
-        <FaCirclePause size={40}/>
+        <FaCirclePause size={40} />
       </button>
     ) : (
       <button
@@ -36,17 +36,12 @@ const AudioControls = ({
         onClick={() => onPlayPauseClick(true)}
         aria-label="Play"
       >
-        <FaCirclePlay size={40}/>
+        <FaCirclePlay size={40} />
       </button>
     )}
-    
-    <button
-      type="button"
-      className=""
-      aria-label="Next"
-      onClick={onNextClick}
-    >
-      <TbPlayerTrackNext/>
+
+    <button type="button" className="" aria-label="Next" onClick={onNextClick}>
+      <TbPlayerTrackNext />
     </button>
   </div>
 );

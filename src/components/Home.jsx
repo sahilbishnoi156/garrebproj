@@ -9,7 +9,7 @@ import Image from "next/image";
 
 export default function Home() {
   const [trackIndex, setTrackIndex] = React.useState(0);
-
+  
   return (
     <main className=" bg-[#151515] text-white min-h-screen pb-40 p-10">
       <header className="">

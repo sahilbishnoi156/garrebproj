@@ -124,6 +124,32 @@ export default function AudioPlayerMob({ tracks, trackIndex, setTrackIndex }) {
       clearInterval(intervalRef.current);
     };
   }, []);
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.keyCode === 32) {
+        event.preventDefault();
+        setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+      }else if (event.keyCode === 179) {
+        setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+      }else if(event.keyCode === 176){
+        toNextTrack();
+      }else if(event.keyCode === 177){
+        toPrevTrack();
+      }else if(event.keyCode === 77){
+        setIsMuted((prevIsMuted) => !prevIsMuted);
+      }else if(event.keyCode === 37){
+        onScrub(audioRef.current.currentTime - 10)
+        startTimer();
+      }else if(event.keyCode === 39){
+        onScrub(audioRef.current.currentTime + 10)
+        startTimer();
+      }
+    };
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [isPlaying]);
 
   return (
     <div className="lg:flex items-center justify-between hidden">
