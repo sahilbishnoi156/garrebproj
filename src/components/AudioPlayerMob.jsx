@@ -4,27 +4,22 @@ import React, { useState, useEffect, useRef } from "react";
 import AudioControls from "./AudioControls";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { BiSolidVolumeMute } from "react-icons/bi";
-
-const TrackInfo = ({ cover, title }) => (
-  <div className="flex gap-4 items-center w-48">
-    <img src={cover} alt="Album Cover" className="h-16 w-16 rounded-lg" />
-    <div className="text-md">{title}</div>
-  </div>
-);
+import Image from "next/image";
 
 const formatDuration = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = Math.round(seconds % 60);
-  const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
-  return `${minutes || "00"}:${formattedSeconds || '00'}`;
+  const formattedSeconds =
+    remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+  return `${minutes || "00"}:${formattedSeconds || "00"}`;
 };
 
-export default function AudioPlayerMob({ tracks, trackIndex, setTrackIndex }) {
+export default function AudioPlayer({ tracks, trackIndex, setTrackIndex }) {
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
-  const audioRef = useRef( typeof Audio !== "undefined" ? new Audio() : null);
+  const audioRef = useRef(typeof Audio !== "undefined" ? new Audio() : null);
   const intervalRef = useRef();
   const isReady = useRef(false);
 
@@ -115,16 +110,22 @@ export default function AudioPlayerMob({ tracks, trackIndex, setTrackIndex }) {
   }, []);
 
   return (
-    <div className="lg:flex items-center justify-between hidden">
-      <TrackInfo cover={cover} title={title} />
-      <div className="w-1/2">
-        <AudioControls
-          isPlaying={isPlaying}
-          onPrevClick={toPrevTrack}
-          onNextClick={toNextTrack}
-          onPlayPauseClick={setIsPlaying}
-        />
-        <div className="flex items-center justify-center gap-2">
+    <div className="flex flex-col gap-2 lg:hidden">
+      <div className="flex items-center justify-between">
+        <div className="w-16 h-16 relative shrink-0">
+          <Image src={cover} alt="Album Cover" className="rounded-lg" fill />
+        </div>
+        <div className="flex flex-col w-full items-center justify-center gap-2">
+          <div className="text-md">{title}</div>
+          <AudioControls
+            isPlaying={isPlaying}
+            onPrevClick={toPrevTrack}
+            onNextClick={toNextTrack}
+            onPlayPauseClick={setIsPlaying}
+          />
+        </div>
+      </div>
+      <div className="flex items-center justify-center gap-2">
           <span>{formatDuration(Math.round(trackProgress))}</span>
           <input
             type="range"
@@ -140,22 +141,6 @@ export default function AudioPlayerMob({ tracks, trackIndex, setTrackIndex }) {
           />
           <span>{formatDuration(Math.round(duration)) || "00:00"}</span>
         </div>
-      </div>
-      <div className="w-40 flex items-center justify-end">
-        {isMuted ? (
-          <BiSolidVolumeMute
-            size={20}
-            onClick={() => setIsMuted(false)}
-            className="cursor-pointer"
-          />
-        ) : (
-          <HiSpeakerWave
-            size={20}
-            onClick={() => setIsMuted(true)}
-            className="cursor-pointer"
-          />
-        )}
-      </div>
     </div>
   );
 }
