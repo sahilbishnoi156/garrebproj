@@ -17,7 +17,7 @@ export default function Home() {
       </header>
       <section>
         <h3 className="text-2xl flex items-center justify-start gap-2">
-          <div className="text-base bg-neutral-800 px-3 rounded-2xl">20</div>
+          <div className="text-base bg-neutral-800 px-3 rounded-2xl">{tracks.length}</div>
           My Tracks{" "}
           <a href="https://www.instagram.com/_.axxhu47?igsh=MThwb2t4ZWJvZG9kOA==" className="cursor-pointer hover:scale-110 duration-300 ml-8" target="_blank">
             <Image

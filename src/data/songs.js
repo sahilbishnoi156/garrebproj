@@ -1,5 +1,10 @@
 export const tracks = [
   {
+    title: 'Nastha',
+    audioSrc: '/assets/nashta.mp3',
+    cover: '/assets/nashtacover.jpg'
+  },
+  {
     title: 'Faasla',
     audioSrc: '/assets/faasla.mp3',
     cover: '/assets/faaslacover.jpeg'
